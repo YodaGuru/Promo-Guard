@@ -6,7 +6,7 @@
       "start": "devvit playtest r/formatting_testing"
     },
     "dependencies": {
-      "@devvit/public-api": "0.10.22"
+      "@devvit/public-api": "0.12.14"
     },
     "devDependencies": {
       "typescript": "^5.0.0"
