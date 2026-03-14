@@ -1,4 +1,5 @@
 name: promo-guard
-version: 0.0.6
+version: 0.0.7
 description: Devvit bot that enforces "Developer Saturday" promotion rules
 entry: src/main.ts
+icon: assets/icon.png
