@@ -1,31 +1,76 @@
-import { Devvit } from '@devvit/framework';
+import { Devvit } from '@devvit/public-api';
 import { config } from './config';
-import { getUserPostCountToday, removePost, notifyUser } from './utils';
+import { getUserPostCountToday } from './utils';
 
-const bot = new Devvit();
-
-bot.on('post:submit', async (post) => {
-  const today = new Date().getUTCDay();
-
-  // Only process posts with the configured promo flair
-  if (post.flair !== config.promoFlair) {
-    return;
-  }
-
-  // Check day (promo posts only allowed on configured day)
-  if (today !== config.promoDay) {
-    await removePost(post.id);
-    await notifyUser(post.author, `Posts with the "${config.promoFlair}" flair are only allowed on Saturdays.`);
-    return;
-  }
-
-  // Check max posts for today (only one promo post per Saturday)
-  const count = await getUserPostCountToday(post.author, config.promoFlair);
-  if (count >= config.maxPostsPerUser) {
-    await removePost(post.id);
-    await notifyUser(post.author, `You already posted with the "${config.promoFlair}" flair today. Only one is allowed each Saturday.`);
-    return;
-  }
+Devvit.configure({
+  redditAPI: true,
+  kvStore: true,
 });
 
-bot.start();
+Devvit.addTrigger({
+  event: 'PostSubmit',
+  async onEvent(event, context) {
+    const { reddit, kvStore } = context;
+    const post = event.post;
+    const author = event.author;
+
+    if (!post || !author) return;
+
+    if (post.linkFlair?.text !== config.promoFlair) return;
+
+    const today = new Date().getUTCDay();
+
+    const notify = async (username: string, message: string) => {
+      try {
+        await reddit.sendPrivateMessage({
+          to: username,
+          subject: 'Post Removed - Promo Guard',
+          text: message,
+        });
+      } catch {
+        try {
+          await reddit.submitComment({
+            id: post.id,
+            text: `Hey u/${username}, ${message}`,
+          });
+        } catch {
+          console.log(`Could not notify ${username}`);
+        }
+      }
+    };
+
+    if (today !== config.promoDay) {
+      await reddit.remove(post.id, false);
+      
+      const now = new Date();
+      const utcTime = now.toUTCString().split(' ')[4];
+      const utcTimeShort = utcTime.slice(0, 5);
+      const dayName = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][now.getUTCDay()];
+    
+      await notify(
+        author.name,
+        `Your post was removed. It is currently ${utcTimeShort} UTC on a ${dayName} — Developer Saturday posts are only allowed during Saturdays (UTC). See you next Saturday!`
+      );
+      return;
+    }
+
+    const count = await getUserPostCountToday(kvStore, author.name, config.promoFlair);
+    if (count >= config.maxPostsPerUser) {
+      await reddit.remove(post.id, false);
+      await notify(author.name, `Your post was removed — you've already shared your Developer Saturday post for this week. See you next Saturday!`);
+      return;
+    }
+
+    // Welcome comment for valid Saturday posts
+    try {
+      await reddit.submitComment({
+        id: post.id,
+        text: `🎉 Welcome to Developer Saturday, u/${author.name}! Your project is now live for the community to check out. Upvote, give feedback, and show some love to your fellow devs! 🚀`,
+      });
+    } catch {
+      console.log(`Could not post welcome comment for ${author.name}`);
+    }
+  },
+});
+
+export default Devvit;

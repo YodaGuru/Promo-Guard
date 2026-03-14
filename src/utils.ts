@@ -1,30 +1,16 @@
-const promoTracker = new Map<string, string>();
+import { KVStore } from '@devvit/public-api';
 
-export async function getUserPostCountToday(username: string, flair: string) {
+export async function getUserPostCountToday(
+  kvStore: KVStore,
+  username: string,
+  flair: string
+): Promise<number> {
   const today = new Date().toISOString().split('T')[0];
   const key = `${username}:${flair}`;
-
-  const lastDate = promoTracker.get(key);
-
+  const lastDate = await kvStore.get<string>(key);
   if (lastDate === today) {
     return 1;
   }
-
-  // record today's post
-  promoTracker.set(key, today);
+  await kvStore.put(key, today);
   return 0;
-}
-
-export async function removePost(postId: string) {
-  // Placeholder for Devvit API call
-  console.log(`Removing post ${postId}`);
-}
-
-export async function notifyUser(username: string, message: string) {
-  // Placeholder for notifying the user
-  console.log(`Notify ${username}: ${message}`);
-}
-
-function dayName(dayNumber: number) {
-  return ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][dayNumber];
 }
