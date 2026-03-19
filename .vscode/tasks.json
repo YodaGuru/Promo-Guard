@@ -1,0 +1,42 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "🛡️ 1. Safety: Type Check",
+            "type": "shell",
+            "command": "npm run type-check",
+            "problemMatcher": ["$tsc"],
+            "detail": "Runs a silent check for TypeScript errors without launching."
+        },
+        {
+            "label": "🧪 2. Lab: Playtest (Sandbox)",
+            "type": "shell",
+            "command": "npx devvit playtest r/formatting_testing",
+            "problemMatcher": [],
+            "group": "test",
+            "detail": "Hot-reloads code changes instantly on your test sub."
+        },
+        {
+            "label": "📤 3. Deploy: Upload to Cloud",
+            "type": "shell",
+            "command": "npx devvit upload",
+            "group": "build",
+            "problemMatcher": [],
+            "detail": "Bundles code and creates a new version in the Dev Portal."
+        },
+        {
+            "label": "📸 4. Monitor: Live Logs",
+            "type": "shell",
+            "command": "npx devvit logs r/macos",
+            "problemMatcher": [],
+            "detail": "Streams logs from your live production subreddit."
+        },
+        {
+            "label": "🔄 5. Maintenance: Update SDK",
+            "type": "shell",
+            "command": "npx devvit update app && npm install",
+            "problemMatcher": [],
+            "detail": "Updates Devvit SDK and refreshes node_modules."
+        }
+    ]
+}
