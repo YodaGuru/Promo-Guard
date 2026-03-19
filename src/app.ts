@@ -16,7 +16,11 @@ Devvit.addTrigger({
 
     if (!post || !author) return;
 
-    if (post.linkFlair?.text !== config.promoFlair) return;
+    const allowedFlairs = Array.isArray(config.promoFlair)
+      ? config.promoFlair
+      : [config.promoFlair];
+
+    if (!allowedFlairs.includes(post.linkFlair?.text ?? '')) return;
 
     const today = new Date().getUTCDay();
 
