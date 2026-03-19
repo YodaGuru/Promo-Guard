@@ -37,6 +37,20 @@
             "command": "npx devvit update app && npm install",
             "problemMatcher": [],
             "detail": "Updates Devvit SDK and refreshes node_modules."
-        }
+        },
+		{
+			"label": "🚀 5. Release: Publish (Private)",
+			"type": "shell",
+			"command": "npx devvit publish",
+			"problemMatcher": [],
+			"detail": "Promotes your latest upload so it can be installed on large subreddits you moderate."
+		},
+		{
+			"label": "🌍 6. Public: Submit to App Directory",
+			"type": "shell",
+			"command": "npx devvit publish --public",
+			"problemMatcher": [],
+			"detail": "Submits your app for Reddit Admin review to make it available for ALL subreddits."
+		}
     ]
 }
