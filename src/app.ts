@@ -58,7 +58,7 @@ Devvit.addTrigger({
       return;
     }
 
-    const count = await getUserPostCountToday(kvStore, author.name, config.promoFlair);
+    const count = await getUserPostCountToday(kvStore, author.name, allowedFlairs);
     if (count >= config.maxPostsPerUser) {
       await reddit.remove(post.id, false);
       await notify(author.name, `Your post was removed — you've already shared your Developer Saturday post for this week. See you next Saturday!`);
