@@ -2,14 +2,14 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "🛡️ 1. Safety: Type Check",
+            "label": "🛡️ Safety: Type Check",
             "type": "shell",
             "command": "npm run type-check",
             "problemMatcher": ["$tsc"],
             "detail": "Runs a silent check for TypeScript errors without launching."
         },
         {
-            "label": "🧪 2. Lab: Playtest (Sandbox)",
+            "label": "🧪 Lab: Playtest (Sandbox)",
             "type": "shell",
             "command": "npx devvit playtest r/formatting_testing",
             "problemMatcher": [],
@@ -17,7 +17,7 @@
             "detail": "Hot-reloads code changes instantly on your test sub."
         },
         {
-            "label": "📤 3. Deploy: Upload to Cloud",
+            "label": "📤 Deploy: Upload to Cloud",
             "type": "shell",
             "command": "npx devvit upload",
             "group": "build",
@@ -25,7 +25,7 @@
             "detail": "Bundles code and creates a new version in the Dev Portal."
         },
         {
-            "label": "📸 4. Monitor: Live Logs",
+            "label": "📸 Monitor: Live Logs",
             "type": "shell",
             "command": "npx devvit logs r/macos",
             "problemMatcher": [],
@@ -39,18 +39,39 @@
             "detail": "Updates Devvit SDK and refreshes node_modules."
         },
 		{
-			"label": "🚀 5. Release: Publish (Private)",
+			"label": "🚀 Release: Publish (Private)",
 			"type": "shell",
 			"command": "npx devvit publish",
 			"problemMatcher": [],
 			"detail": "Promotes your latest upload so it can be installed on large subreddits you moderate."
 		},
 		{
-			"label": "🌍 6. Public: Submit to App Directory",
+			"label": "🌍 Public: Submit to App Directory",
 			"type": "shell",
 			"command": "npx devvit publish --public",
 			"problemMatcher": [],
 			"detail": "Submits your app for Reddit Admin review to make it available for ALL subreddits."
+		},
+		{
+			"label": "💎 Release: Major Bump (1.0.0)",
+			"type": "shell",
+			"command": "npx devvit upload --bump major",
+			"problemMatcher": [],
+			"detail": "Jumps to the next major version (e.g., 0.0.10 -> 1.0.0)"
+		},
+		{
+			"label": "🥈 Release: Minor Bump (0.1.0)",
+			"type": "shell",
+			"command": "npx devvit upload --bump minor",
+			"problemMatcher": [],
+			"detail": "Jumps to the next minor version (e.g., 0.0.10 -> 0.1.0)"
+		},
+		{
+			"label": "🩹 Release: Patch Bump (0.0.11)",
+			"type": "shell",
+			"command": "npx devvit upload --bump patch",
+			"problemMatcher": [],
+			"detail": "Increments the last number for small fixes."
 		}
     ]
 }
