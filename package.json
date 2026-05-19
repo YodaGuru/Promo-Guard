@@ -1,17 +1,14 @@
 {
   "name": "promo-guard",
-  "version": "1.0.0",
-  "description": "Devvit bot that enforces Developer Saturday promotion rules",
-  "icon": "assets/icon.png",
-  "type": "module",
-  "scripts": {
-    "start": "devvit playtest",
-    "type-check": "tsc --noEmit"
-  },
+  "version": "1.1.0",
+  "private": true,
   "dependencies": {
-    "@devvit/public-api": "0.12.15"
+    "@devvit/public-api": "0.12.24"
   },
   "devDependencies": {
-    "typescript": "5.8.3"
+    "typescript": "^5.0.0"
+  },
+  "scripts": {
+    "type-check": "tsc --noEmit"
   }
 }
