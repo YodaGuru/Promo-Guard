@@ -43,6 +43,7 @@ Devvit.addTrigger({
       }
     };
 
+    // 1. Enforce that it MUST be Saturday (config.promoDay)
     if (today !== config.promoDay) {
       await reddit.remove(post.id, false);
       
@@ -55,13 +56,6 @@ Devvit.addTrigger({
         author.name,
         `Your post was removed. It is currently ${utcTimeShort} UTC on a ${dayName} — Developer Saturday posts are only allowed during Saturdays (UTC). See you next Saturday!`
       );
-      return;
-    }
-
-    const count = await getUserPostCountToday(kvStore, author.name, allowedFlairs);
-    if (count >= config.maxPostsPerUser) {
-      await reddit.remove(post.id, false);
-      await notify(author.name, `Your post was removed — you've already shared your Developer Saturday post for this week. See you next Saturday!`);
       return;
     }
 
